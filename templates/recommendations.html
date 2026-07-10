@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="text-center mb-4">Recommended Movies</h2>
+
+<div class="row">
+
+    {% for movie in recommendations %}
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card h-100 shadow">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    {{ movie.title }}
+                </h5>
+
+                <p class="card-text">
+                    <strong>Genre:</strong>
+                    {{ movie.genres }}
+                </p>
+
+                <p class="card-text">
+                    <strong>Average Rating:</strong>
+                    {{ movie.rating|default:"N/A" }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+</div>
+
+{% endblock %}

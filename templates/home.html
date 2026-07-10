@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="display-4 mb-3">Movie Recommendation System</h1>
+
+    <p class="lead">
+        Find movies similar to your favorite ones using our recommendation system.
+    </p>
+
+    <form action="/recommendations/" method="GET" class="mt-4">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <input
+                    type="text"
+                    name="movie"
+                    class="form-control"
+                    placeholder="Enter a movie name..."
+                    required
+                >
+            </div>
+
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">
+                    Recommend
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
