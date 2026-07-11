@@ -1,30 +1,77 @@
 from django.shortcuts import render
+import pandas as pd
+
+from .services.recommender import (
+    load_dataset,
+    preprocess_data,
+    generate_similarity_matrix,
+    recommend_movies,
+)
+
 
 def home(request):
     return render(request, "home.html")
 
 
 def recommendations(request):
-    recommendations = [
-        {
-            "title": "Toy Story 2 (1999)",
-            "genres": "Adventure | Animation | Children | Comedy | Fantasy",
-            "rating": 4.3,
-        },
-        {
-            "title": "Monsters, Inc. (2001)",
-            "genres": "Adventure | Animation | Children | Comedy",
-            "rating": 4.2,
-        },
-        {
-            "title": "Shrek (2001)",
-            "genres": "Adventure | Animation | Comedy | Fantasy",
-            "rating": 4.1,
-        },
-    ]
+
+    movie_name = request.GET.get("movie", "").strip()
+
+    if not movie_name:
+        return render(
+            request,
+            "home.html",
+            {
+                "error": "Please enter a movie name.",
+                "movie_name": "",
+            },
+        )
+
+    movies = load_dataset("master_dataset.csv")
+    movies = movies[["title", "genres"]].drop_duplicates().reset_index(drop=True)
+    movies = preprocess_data(movies)
+
+    similarity = generate_similarity_matrix(movies)
+
+    recommended_titles = recommend_movies(
+        movie_name,
+        movies,
+        similarity,
+    )
+
+    if recommended_titles == ["Movie not found in the dataset."]:
+        return render(
+            request,
+            "home.html",
+            {
+                "error": "Movie not found.",
+                "movie_name": movie_name,
+            },
+        )
+
+    recommendations = []
+
+    full_dataset = pd.read_csv("master_dataset.csv")
+
+    for title in recommended_titles:
+
+        movie = full_dataset[full_dataset["title"] == title]
+
+        if not movie.empty:
+
+            recommendations.append(
+                {
+                    "title": title,
+                    "genres": movie.iloc[0]["genres"],
+                    "rating": round(movie["rating"].mean(), 1),
+                }
+            )
 
     return render(
         request,
         "recommendations.html",
-        {"recommendations": recommendations},
+        {
+            "recommendations": recommendations,
+            "movie_name": movie_name,
+        },
     )
