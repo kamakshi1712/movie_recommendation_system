@@ -16,15 +16,33 @@
 
     {% for movie in recommendations %}
 
-    <div class="col-md-4 mb-4">
+    <div class="col-lg-4 col-md-6 mb-4">
 
         <div class="card h-100 shadow">
+
+            {% if movie.poster and movie.poster != "N/A" %}
+            <img
+                src="{{ movie.poster }}"
+                class="card-img-top"
+                alt="{{ movie.title }}"
+                style="height:450px; object-fit:cover;"
+            >
+            {% else %}
+            <div class="text-center p-5">
+                <strong>No Poster Available</strong>
+            </div>
+            {% endif %}
 
             <div class="card-body">
 
                 <h5 class="card-title">
                     {{ movie.title }}
                 </h5>
+
+                <p class="card-text">
+                    <strong>Release Year:</strong>
+                    {{ movie.year }}
+                </p>
 
                 <p class="card-text">
                     <strong>Genres:</strong><br>
@@ -40,7 +58,6 @@
                     <strong>Total Ratings:</strong>
                     {{ movie.total_ratings|default:"N/A" }}
                 </p>
-            </div>
 
             </div>
 

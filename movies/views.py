@@ -8,6 +8,8 @@ from .services.recommender import (
     recommend_movies,
 )
 
+from .services.omdb import get_movie_details
+
 
 def home(request):
     return render(request, "home.html")
@@ -60,12 +62,16 @@ def recommendations(request):
 
             if not movie.empty:
 
+                movie_details = get_movie_details(title)
+
                 recommendations.append(
                     {
                         "title": title,
                         "genres": movie.iloc[0]["genres"],
                         "rating": round(movie["rating"].mean(), 1),
                         "total_ratings": int(movie["rating"].count()),
+                        "poster": movie_details["poster"],
+                        "year": movie_details["year"],
                     }
                 )
 
