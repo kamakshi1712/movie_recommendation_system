@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="text-center mb-4">Search History</h2>
+
+{% if history %}
+
+<table class="table table-striped table-bordered">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Movie Name</th>
+            <th>Search Date & Time</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        {% for item in history %}
+
+        <tr>
+
+            <td>{{ item.movie_title }}</td>
+
+            <td>{{ item.searched_at }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<div class="alert alert-info text-center">
+    No search history available.
+</div>
+
+{% endif %}
+
+<div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">
+        Back to Home
+    </a>
+</div>
+
+{% endblock %}

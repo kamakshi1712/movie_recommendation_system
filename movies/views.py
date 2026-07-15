@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import pandas as pd
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+
+from .models import SearchHistory
 
 from .services.recommender import (
     load_dataset,
@@ -15,6 +20,7 @@ def home(request):
     return render(request, "home.html")
 
 
+@login_required
 def recommendations(request):
 
     try:
@@ -51,6 +57,11 @@ def recommendations(request):
                     "movie_name": movie_name,
                 },
             )
+
+        SearchHistory.objects.create(
+            user=request.user,
+            movie_title=movie_name,
+        )
 
         recommendations = []
 
@@ -93,3 +104,40 @@ def recommendations(request):
                 "movie_name": "",
             },
         )
+
+
+def register(request):
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+
+    else:
+        form = UserCreationForm()
+
+    return render(
+        request,
+        "register.html",
+        {
+            "form": form,
+        },
+    )
+
+
+@login_required
+def search_history(request):
+
+    history = SearchHistory.objects.filter(
+        user=request.user
+    ).order_by("-searched_at")
+
+    return render(
+        request,
+        "history.html",
+        {
+            "history": history,
+        },
+    )
