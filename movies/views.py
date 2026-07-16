@@ -4,7 +4,7 @@ import pandas as pd
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-from .models import SearchHistory
+from .models import SearchHistory, FavoriteMovie
 
 from .services.recommender import (
     load_dataset,
@@ -15,9 +15,12 @@ from .services.recommender import (
 
 from .services.omdb import get_movie_details
 
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):
     return render(request, "home.html")
+
 
 
 @login_required
@@ -141,3 +144,48 @@ def search_history(request):
             "history": history,
         },
     )
+
+
+@login_required
+def add_favorite(request):
+
+    if request.method == "POST":
+
+        FavoriteMovie.objects.get_or_create(
+            user=request.user,
+            title=request.POST.get("title"),
+            genres=request.POST.get("genres"),
+            poster=request.POST.get("poster"),
+            rating=request.POST.get("rating"),
+        )
+
+    return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
+@login_required
+def favorites(request):
+
+    favorites = FavoriteMovie.objects.filter(
+        user=request.user
+    ).order_by("-added_at")
+
+    return render(
+        request,
+        "favorites.html",
+        {
+            "favorites": favorites,
+        },
+    )
+
+
+@login_required
+def remove_favorite(request, favorite_id):
+
+    favorite = FavoriteMovie.objects.get(
+        id=favorite_id,
+        user=request.user,
+    )
+
+    favorite.delete()
+
+    return redirect("favorites")

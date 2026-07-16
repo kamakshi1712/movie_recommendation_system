@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="text-center mb-4">My Favorite Movies</h2>
+
+{% if favorites %}
+
+<div class="row">
+
+    {% for movie in favorites %}
+
+    <div class="col-lg-4 col-md-6 mb-4">
+
+        <div class="card h-100 shadow">
+
+            {% if movie.poster %}
+            <img
+                src="{{ movie.poster }}"
+                class="card-img-top"
+                alt="{{ movie.title }}"
+                style="height:450px; object-fit:cover;"
+            >
+            {% else %}
+            <div class="text-center p-5">
+                <strong>No Poster Available</strong>
+            </div>
+            {% endif %}
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    {{ movie.title }}
+                </h5>
+
+                <p class="card-text">
+                    <strong>Genres:</strong><br>
+                    {{ movie.genres }}
+                </p>
+
+                <p class="card-text">
+                    <strong>Average Rating:</strong>
+                    {{ movie.rating|default:"N/A" }}
+                </p>
+
+                <form action="{% url 'remove_favorite' movie.id %}" method="post">
+
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger w-100">
+                        Remove
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info text-center">
+    No favorite movies added yet.
+</div>
+
+{% endif %}
+
+<div class="text-center mt-4">
+
+    <a href="/" class="btn btn-secondary">
+        Back to Home
+    </a>
+
+</div>
+
+{% endblock %}
