@@ -2,64 +2,99 @@
 
 {% block content %}
 
-<h2 class="text-center mb-2">Recommended Movies</h2>
+<div class="text-center mb-5">
 
-{% if movie_name %}
-<p class="text-center text-muted mb-4">
-    Results for: <strong>{{ movie_name }}</strong>
-</p>
-{% endif %}
+    <h1 class="fw-bold display-5">
+        🎬 Recommended Movies
+    </h1>
+
+    {% if movie_name %}
+    <p class="lead text-muted">
+        Here are some movies similar to
+        <span class="fw-bold text-primary">"{{ movie_name }}"</span>
+    </p>
+    {% endif %}
+
+</div>
 
 {% if recommendations %}
 
-<div class="row">
+<div class="row g-4">
 
     {% for movie in recommendations %}
 
-    <div class="col-lg-4 col-md-6 mb-4">
+    <div class="col-lg-4 col-md-6">
 
-        <div class="card h-100 shadow">
+        <div class="card h-100 border-0 shadow-sm">
 
             {% if movie.poster and movie.poster != "N/A" %}
-            <img
-                src="{{ movie.poster }}"
-                class="card-img-top"
-                alt="{{ movie.title }}"
-                style="height:450px; object-fit:cover;"
-            >
+
+            <img src="{{ movie.poster }}"
+                 class="card-img-top"
+                 style="height:420px; object-fit:cover;">
+
             {% else %}
-            <div class="text-center p-5">
-                <strong>No Poster Available</strong>
+
+            <div class="d-flex align-items-center justify-content-center bg-light"
+                 style="height:420px;">
+
+                <div class="text-center">
+
+                    <div class="display-3 mb-2">
+                        🎬
+                    </div>
+
+                    <h5 class="text-muted">
+                        Poster Not Available
+                    </h5>
+
+                </div>
+
             </div>
+
             {% endif %}
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
 
-                <h5 class="card-title">
+                <h4 class="card-title fw-bold mb-3">
                     {{ movie.title }}
-                </h5>
+                </h4>
 
-                <p class="card-text">
-                    <strong>Release Year:</strong>
-                    {{ movie.year }}
+                <div class="mb-3">
+
+                    <span class="badge bg-warning text-dark me-2 px-3 py-2">
+                        ⭐ {{ movie.rating|default:"N/A" }}
+                    </span>
+
+                    <span class="badge bg-success px-3 py-2">
+                        📅 {{ movie.year }}
+                    </span>
+
+                </div>
+
+                <p class="mb-3">
+
+                    <strong>🎭 Genres</strong>
+
+                    <br>
+
+                    <span class="text-muted">
+                        {{ movie.genres }}
+                    </span>
+
                 </p>
 
-                <p class="card-text">
-                    <strong>Genres:</strong><br>
-                    {{ movie.genres }}
-                </p>
+                <p class="mb-4">
 
-                <p class="card-text">
-                    <strong>Average Rating:</strong>
-                    {{ movie.rating|default:"N/A" }}
-                </p>
+                    <strong>👥 Total Ratings</strong>
 
-                <p class="card-text">
-                    <strong>Total Ratings:</strong>
+                    <br>
+
                     {{ movie.total_ratings|default:"N/A" }}
+
                 </p>
 
-                <form action="{% url 'add_favorite' %}" method="post">
+                <form action="{% url 'add_favorite' %}" method="post" class="mt-auto">
 
                     {% csrf_token %}
 
@@ -68,8 +103,10 @@
                     <input type="hidden" name="poster" value="{{ movie.poster }}">
                     <input type="hidden" name="rating" value="{{ movie.rating }}">
 
-                    <button type="submit" class="btn btn-warning w-100 mt-3">
-                        ⭐ Add to Favorites
+                    <button class="btn btn-warning w-100 fw-semibold shadow-sm">
+
+                        ❤️ Add to Favorites
+
                     </button>
 
                 </form>
@@ -86,20 +123,36 @@
 
 {% else %}
 
-<div class="alert alert-warning text-center">
-    No recommendations found.
+<div class="alert alert-warning text-center shadow-sm p-4">
+
+    <h5 class="mb-2">
+        😕 No recommendations found
+    </h5>
+
+    <p class="mb-0">
+        Try searching for another movie title.
+    </p>
+
 </div>
 
 {% endif %}
 
-<div class="text-center mt-4">
-    <a href="/" class="btn btn-secondary">
-        Search Another Movie
+<div class="text-center mt-5">
+
+    <a href="/"
+       class="btn btn-outline-primary btn-lg px-4 me-2">
+
+        🔍 Search Another Movie
+
     </a>
 
-    <a href="{% url 'favorites' %}" class="btn btn-primary ms-2">
-        View Favorites
+    <a href="{% url 'favorites' %}"
+       class="btn btn-success btn-lg px-4">
+
+        ❤️ View Favorites
+
     </a>
+
 </div>
 
 {% endblock %}

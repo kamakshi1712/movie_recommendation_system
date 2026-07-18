@@ -2,51 +2,88 @@
 
 {% block content %}
 
-<h2 class="text-center mb-4">Search History</h2>
+<div class="text-center mb-5">
+
+    <h1 class="fw-bold">📜 Search History</h1>
+
+    <p class="lead text-muted">
+        View all the movies you've searched for.
+    </p>
+
+</div>
 
 {% if history %}
 
-<table class="table table-striped table-bordered">
+<div class="card border-0 shadow-lg">
 
-    <thead class="table-dark">
+    <div class="card-body">
 
-        <tr>
-            <th>Movie Name</th>
-            <th>Search Date & Time</th>
-        </tr>
+        <div class="table-responsive">
 
-    </thead>
+            <table class="table table-hover align-middle mb-0">
 
-    <tbody>
+                <thead class="table-dark">
 
-        {% for item in history %}
+                    <tr>
 
-        <tr>
+                        <th>🎬 Movie</th>
 
-            <td>{{ item.movie_title }}</td>
+                        <th>🕒 Search Date & Time</th>
 
-            <td>{{ item.searched_at }}</td>
+                    </tr>
 
-        </tr>
+                </thead>
 
-        {% endfor %}
+                <tbody>
 
-    </tbody>
+                    {% for item in history %}
 
-</table>
+                    <tr>
+
+                        <td class="fw-semibold">
+                            {{ item.movie_title }}
+                        </td>
+
+                        <td>
+                            {{ item.searched_at }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% else %}
 
-<div class="alert alert-info text-center">
-    No search history available.
+<div class="alert alert-info text-center shadow-sm">
+
+    <h5>No Search History Found</h5>
+
+    <p class="mb-0">
+        Your searched movies will appear here.
+    </p>
+
 </div>
 
 {% endif %}
 
-<div class="text-center mt-4">
-    <a href="/" class="btn btn-secondary">
-        Back to Home
+<div class="text-center mt-5">
+
+    <a href="/" class="btn btn-primary btn-lg">
+
+        🏠 Back to Home
+
     </a>
+
 </div>
 
 {% endblock %}

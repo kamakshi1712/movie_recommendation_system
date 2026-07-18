@@ -1,92 +1,156 @@
-body {
-    background-color: #f5f7fb;
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
+/* ================================
+   Day 15 - Final UI Optimization
+================================ */
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(to right,#f8f9fa,#eef4ff);
+    color:#333;
 }
 
-.container {
-    margin-top: 40px;
-    margin-bottom: 40px;
+/* Navbar */
+
+.navbar{
+    background:#212529 !important;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
 }
 
-h1 {
-    color: #0d6efd;
-    font-weight: 700;
+.navbar-brand{
+    font-size:1.4rem;
+    font-weight:700;
+    letter-spacing:.5px;
 }
 
-h2 {
-    color: #343a40;
-    font-weight: 600;
+.nav-link{
+    transition:.3s;
 }
 
-.lead {
-    color: #6c757d;
-    margin-bottom: 25px;
+.nav-link:hover{
+    color:#0d6efd !important;
 }
 
-.card {
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+/* Hero */
+
+.display-3,
+.display-4{
+    color:#1f3c88;
+    font-weight:700;
 }
 
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+.lead{
+    font-size:1.1rem;
+    color:#555;
 }
 
-.card-title {
-    color: #0d6efd;
-    font-weight: 600;
+/* Buttons */
+
+.btn{
+    border-radius:12px;
+    font-weight:600;
+    transition:all .3s ease;
 }
 
-.card-text {
-    color: #555;
-    line-height: 1.6;
+.btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
 }
 
-.btn-primary {
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-weight: 600;
+/* Forms */
+
+.form-control{
+    border-radius:12px;
+    padding:12px;
 }
 
-.btn-primary:hover {
-    transform: scale(1.03);
+.form-control:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 12px rgba(13,110,253,.2);
 }
 
-.btn-secondary {
-    border-radius: 8px;
+/* Cards */
+
+.card{
+    border:none;
+    border-radius:18px;
+    overflow:hidden;
+    transition:all .3s ease;
 }
 
-.form-control {
-    border-radius: 8px;
-    padding: 10px;
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 35px rgba(0,0,0,.15);
 }
 
-.navbar {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+.card img{
+    transition:transform .4s ease;
 }
 
-footer {
-    background-color: #212529;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    margin-top: 40px;
+.card:hover img{
+    transform:scale(1.05);
 }
 
-.alert {
-    border-radius: 10px;
+.card-title{
+    color:#222;
+    font-weight:700;
 }
 
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
+.card-body{
+    padding:1.4rem;
+}
 
-    .container {
-        margin-top: 20px;
-    }
+/* Badges */
+
+.badge{
+    font-size:.85rem;
+    padding:8px 12px;
+    border-radius:30px;
+}
+
+/* Tables */
+
+.table{
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.table thead{
+    background:#0d6efd;
+    color:white;
+}
+
+/* Alerts */
+
+.alert{
+    border:none;
+    border-radius:12px;
+}
+
+/* Footer */
+
+footer{
+    margin-top:80px;
+    padding:25px 0;
+    color:#666;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.display-3{
+    font-size:2.2rem;
+}
+
+.display-4{
+    font-size:2rem;
+}
+
+.btn-lg{
+    width:100%;
+}
+
+.card{
+    margin-bottom:15px;
+}
+
 }

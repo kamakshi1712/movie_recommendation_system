@@ -2,32 +2,63 @@
 
 {% block content %}
 
-<div class="container mt-5" style="max-width:500px;">
+<div class="row justify-content-center align-items-center" style="min-height:75vh;">
 
-    <div class="card shadow">
+    <div class="col-lg-5 col-md-7">
 
-        <div class="card-body">
+        <div class="card border-0 shadow-lg">
 
-            <h2 class="text-center mb-4">Login</h2>
+            <div class="card-body p-5">
 
-            <form method="post">
+                <div class="text-center mb-4">
 
-                {% csrf_token %}
+                    <div style="font-size:55px;">🎬</div>
 
-                {{ form.as_p }}
+                    <h2 class="fw-bold mt-3">
+                        Welcome Back
+                    </h2>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">
-                        Login
-                    </button>
+                    <p class="text-muted">
+                        Sign in to continue exploring your favourite movies.
+                    </p>
+
                 </div>
 
-            </form>
+                <form method="post">
 
-            <p class="text-center mt-3">
-                Don't have an account?
-                <a href="{% url 'register' %}">Register</a>
-            </p>
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <div class="d-grid mt-4">
+
+                        <button type="submit" class="btn btn-primary btn-lg">
+
+                            <i class="bi bi-box-arrow-in-right"></i>
+
+                            Login
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+
+                    Don't have an account?
+
+                    <a href="{% url 'register' %}" class="fw-semibold text-decoration-none">
+
+                        Register Here
+
+                    </a>
+
+                </p>
+
+            </div>
 
         </div>
 

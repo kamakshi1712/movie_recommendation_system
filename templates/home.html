@@ -2,40 +2,148 @@
 
 {% block content %}
 
-<div class="text-center">
-    <h1 class="display-4 mb-3">Movie Recommendation System</h1>
+<!-- Hero Section -->
+<section class="pt-4 pb-3 text-center">
 
-    <p class="lead">
-        Find movies similar to your favorite ones using our recommendation system.
-    </p>
-    {% if error %}
-    <div class="alert alert-danger text-center" role="alert">
-        {{ error }}
-    </div>
-    {% endif %}
-    
-    <form action="/recommendations/" method="GET" class="mt-4">
+    <div class="container">
 
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <input
-                    type="text"
-                    name="movie"
-                    class="form-control"
-                    placeholder="Enter a movie name..."
-                    value="{{ movie_name|default:'' }}"
-                    required
-                >
-            </div>
+        <h1 class="display-3 fw-bold mb-3">
+            🎬 Discover Your Next Favorite Movie
+        </h1>
 
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">
-                    Recommend
-                </button>
-            </div>
+        <p class="lead mb-3">
+            Discover movies you'll love using AI-powered recommendations,
+            built with Django, Machine Learning, and the MovieLens dataset.
+        </p>
+
+        <!-- Feature Badges -->
+        <div class="d-flex justify-content-center flex-wrap gap-2 mb-5">
+
+            <span class="badge bg-primary fs-6 p-2">
+                🎬 9,000+ Movies
+            </span>
+
+            <span class="badge bg-success fs-6 p-2">
+                ⭐ Smart Recommendations
+            </span>
+
+            <span class="badge bg-danger fs-6 p-2">
+                ❤️ Save Favorites
+            </span>
+
         </div>
-    </form>
 
-</div>
+        {% if error %}
+        <div class="alert alert-danger col-lg-8 mx-auto">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/recommendations/" method="GET">
+
+            <div class="row justify-content-center g-3">
+
+                <div class="col-lg-7">
+
+                    <input
+                        type="text"
+                        name="movie"
+                        class="form-control form-control-lg shadow-sm"
+                        placeholder="Search for a movie (e.g. Toy Story)"
+                        value="{{ movie_name|default:'' }}"
+                        required>
+
+                </div>
+
+                <div class="col-auto">
+
+                    <button class="btn btn-primary btn-lg px-5 shadow">
+                        <i class="bi bi-search"></i>
+                        Recommend
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- Features Section -->
+
+<section class="mt-5">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="card h-100 text-center p-4 shadow-sm border-0">
+
+                <div class="display-5 mb-3">
+                    🎯
+                </div>
+
+                <h4 class="fw-bold">
+                    AI Recommendations
+                </h4>
+
+                <p class="text-muted">
+                    Discover similar movies using Content-Based and
+                    Collaborative Filtering techniques for personalized recommendations.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100 text-center p-4 shadow-sm border-0">
+
+                <div class="display-5 mb-3">
+                    🍿
+                </div>
+
+                <h4 class="fw-bold">
+                    Rich Movie Details
+                </h4>
+
+                <p class="text-muted">
+                    View movie posters, release year, genres,
+                    ratings, and additional information using the OMDb API.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card h-100 text-center p-4 shadow-sm border-0">
+
+                <div class="display-5 mb-3">
+                    ❤️
+                </div>
+
+                <h4 class="fw-bold">
+                    Personal Watchlist
+                </h4>
+
+                <p class="text-muted">
+                    Save your favorite movies,
+                    revisit them anytime, and manage your own collection.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

@@ -2,80 +2,127 @@
 
 {% block content %}
 
-<h2 class="text-center mb-4">My Favorite Movies</h2>
+<div class="text-center mb-5">
+
+    <h1 class="fw-bold">❤️ My Favorite Movies</h1>
+
+    <p class="lead text-muted">
+        Your personal collection of saved movies.
+    </p>
+
+</div>
 
 {% if favorites %}
 
-<div class="row">
+<div class="row g-4">
 
-    {% for movie in favorites %}
+{% for movie in favorites %}
 
-    <div class="col-lg-4 col-md-6 mb-4">
+<div class="col-lg-4 col-md-6">
 
-        <div class="card h-100 shadow">
+<div class="card h-100 border-0 shadow-lg">
 
-            {% if movie.poster %}
-            <img
-                src="{{ movie.poster }}"
-                class="card-img-top"
-                alt="{{ movie.title }}"
-                style="height:450px; object-fit:cover;"
-            >
-            {% else %}
-            <div class="text-center p-5">
-                <strong>No Poster Available</strong>
-            </div>
-            {% endif %}
+{% if movie.poster %}
 
-            <div class="card-body">
+<img src="{{ movie.poster }}"
+class="card-img-top"
+style="height:420px; object-fit:cover;">
 
-                <h5 class="card-title">
-                    {{ movie.title }}
-                </h5>
+{% else %}
 
-                <p class="card-text">
-                    <strong>Genres:</strong><br>
-                    {{ movie.genres }}
-                </p>
+<div class="d-flex justify-content-center align-items-center bg-light"
+style="height:420px;">
 
-                <p class="card-text">
-                    <strong>Average Rating:</strong>
-                    {{ movie.rating|default:"N/A" }}
-                </p>
+<h5 class="text-muted">
+No Poster Available
+</h5>
 
-                <form action="{% url 'remove_favorite' movie.id %}" method="post">
+</div>
 
-                    {% csrf_token %}
+{% endif %}
 
-                    <button type="submit" class="btn btn-danger w-100">
-                        Remove
-                    </button>
+<div class="card-body">
 
-                </form>
+<h4 class="fw-bold">
 
-            </div>
+{{ movie.title }}
 
-        </div>
+</h4>
 
-    </div>
+<p>
 
-    {% endfor %}
+<strong>Genres</strong>
+
+<br>
+
+<span class="text-muted">
+
+{{ movie.genres }}
+
+</span>
+
+</p>
+
+<p>
+
+<strong>Average Rating</strong>
+
+<br>
+
+<span class="badge bg-primary">
+
+⭐ {{ movie.rating|default:"N/A" }}
+
+</span>
+
+</p>
+
+<form action="{% url 'remove_favorite' movie.id %}" method="post">
+
+{% csrf_token %}
+
+<button class="btn btn-danger w-100">
+
+🗑 Remove from Favorites
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
 
 </div>
 
 {% else %}
 
-<div class="alert alert-info text-center">
-    No favorite movies added yet.
+<div class="alert alert-info text-center shadow-sm">
+
+<h5>No favorite movies yet!</h5>
+
+<p class="mb-0">
+
+Start exploring and save your favourite movies.
+
+</p>
+
 </div>
 
 {% endif %}
 
-<div class="text-center mt-4">
+<div class="text-center mt-5">
 
-    <a href="/" class="btn btn-secondary">
-        Back to Home
-    </a>
+<a href="/"
+class="btn btn-primary btn-lg">
+
+🏠 Back to Home
+
+</a>
 
 </div>
 
