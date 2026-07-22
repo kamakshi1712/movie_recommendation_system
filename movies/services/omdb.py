@@ -5,6 +5,7 @@ API_KEY = "1d5c4e3f"
 
 def get_movie_details(movie_title):
     clean_title = movie_title.split("(")[0].strip()
+
     url = f"https://www.omdbapi.com/?t={clean_title}&apikey={API_KEY}"
 
     try:
@@ -15,6 +16,12 @@ def get_movie_details(movie_title):
             return {
                 "poster": data.get("Poster"),
                 "year": data.get("Year"),
+                "runtime": data.get("Runtime"),
+                "language": data.get("Language"),
+                "released": data.get("Released"),
+                "plot": data.get("Plot"),
+                "imdb_rating": data.get("imdbRating"),
+                "genre": data.get("Genre"),
             }
 
     except Exception:
@@ -23,4 +30,10 @@ def get_movie_details(movie_title):
     return {
         "poster": None,
         "year": "N/A",
+        "runtime": "N/A",
+        "language": "N/A",
+        "released": "N/A",
+        "plot": "Not Available",
+        "imdb_rating": "N/A",
+        "genre": "N/A",
     }

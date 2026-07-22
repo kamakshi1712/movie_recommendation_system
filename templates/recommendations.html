@@ -63,7 +63,7 @@
                 <div class="mb-3">
 
                     <span class="badge bg-warning text-dark me-2 px-3 py-2">
-                        ⭐ {{ movie.rating|default:"N/A" }}
+                        ⭐ {{ movie.imdb_rating }}
                     </span>
 
                     <span class="badge bg-success px-3 py-2">
@@ -72,26 +72,41 @@
 
                 </div>
 
-                <p class="mb-3">
-
-                    <strong>🎭 Genres</strong>
-
-                    <br>
-
-                    <span class="text-muted">
-                        {{ movie.genres }}
-                    </span>
-
+                <p>
+                    <strong>🎭 Genre</strong><br>
+                    {{ movie.genre }}
                 </p>
 
-                <p class="mb-4">
+                <p>
+                    <strong>⏱ Runtime</strong><br>
+                    {{ movie.runtime }}
+                </p>
 
-                    <strong>👥 Total Ratings</strong>
+                <p>
+                    <strong>🌍 Language</strong><br>
+                    {{ movie.language }}
+                </p>
 
-                    <br>
+                <p>
+                    <strong>📆 Release Date</strong><br>
+                    {{ movie.released }}
+                </p>
 
-                    {{ movie.total_ratings|default:"N/A" }}
+                <p>
+                    <strong>⭐ Average Rating</strong><br>
+                    {{ movie.rating }}
+                </p>
 
+                <p>
+                    <strong>👥 Total Ratings</strong><br>
+                    {{ movie.total_ratings }}
+                </p>
+
+                <p>
+                    <strong>📝 Overview</strong><br>
+                    <span class="text-muted">
+                        {{ movie.plot }}
+                    </span>
                 </p>
 
                 <form action="{% url 'add_favorite' %}" method="post" class="mt-auto">
@@ -104,9 +119,7 @@
                     <input type="hidden" name="rating" value="{{ movie.rating }}">
 
                     <button class="btn btn-warning w-100 fw-semibold shadow-sm">
-
                         ❤️ Add to Favorites
-
                     </button>
 
                 </form>

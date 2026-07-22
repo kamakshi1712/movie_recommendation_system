@@ -15,12 +15,50 @@ from .services.recommender import (
 
 from .services.omdb import get_movie_details
 
-from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    return render(request, "home.html")
 
+    recent_movies = (
+        SearchHistory.objects.filter(user=request.user)
+        .order_by("-searched_at")
+        .values_list("movie_title", flat=True)
+        .distinct()[:5]
+    )
+
+    return render(
+        request,
+        "home.html",
+        {
+            "recent_movies": recent_movies,
+        },
+    )
+
+
+@login_required
+def dashboard(request):
+
+    total_searches = SearchHistory.objects.filter(
+        user=request.user
+    ).count()
+
+    total_favorites = FavoriteMovie.objects.filter(
+        user=request.user
+    ).count()
+
+    recent_movies = SearchHistory.objects.filter(
+        user=request.user
+    ).order_by("-searched_at")[:5]
+
+    return render(
+        request,
+        "dashboard.html",
+        {
+            "total_searches": total_searches,
+            "total_favorites": total_favorites,
+            "recent_movies": recent_movies,
+        },
+    )
 
 
 @login_required
@@ -29,6 +67,13 @@ def recommendations(request):
     try:
         movie_name = request.GET.get("movie", "").strip()
 
+        recent_movies = (
+            SearchHistory.objects.filter(user=request.user)
+            .order_by("-searched_at")
+            .values_list("movie_title", flat=True)
+            .distinct()[:5]
+        )
+
         if not movie_name:
             return render(
                 request,
@@ -36,6 +81,7 @@ def recommendations(request):
                 {
                     "error": "Please enter a movie name.",
                     "movie_name": "",
+                    "recent_movies": recent_movies,
                 },
             )
 
@@ -58,6 +104,7 @@ def recommendations(request):
                 {
                     "error": "Movie not found.",
                     "movie_name": movie_name,
+                    "recent_movies": recent_movies,
                 },
             )
 
@@ -86,6 +133,12 @@ def recommendations(request):
                         "total_ratings": int(movie["rating"].count()),
                         "poster": movie_details["poster"],
                         "year": movie_details["year"],
+                        "runtime": movie_details["runtime"],
+                        "language": movie_details["language"],
+                        "released": movie_details["released"],
+                        "plot": movie_details["plot"],
+                        "imdb_rating": movie_details["imdb_rating"],
+                        "genre": movie_details["genre"],
                     }
                 )
 
@@ -105,6 +158,7 @@ def recommendations(request):
             {
                 "error": "Something went wrong. Please try again.",
                 "movie_name": "",
+                "recent_movies": recent_movies,
             },
         )
 
@@ -128,8 +182,6 @@ def register(request):
             "form": form,
         },
     )
-
-
 @login_required
 def search_history(request):
 
