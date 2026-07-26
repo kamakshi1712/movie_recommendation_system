@@ -1,1 +1,6 @@
 similarity_matrix.npy
+
+.env
+.venv/
+__pycache__/
+*.pyc

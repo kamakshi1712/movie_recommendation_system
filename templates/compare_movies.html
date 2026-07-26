@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1 class="fw-bold display-5">⚖️ Compare Movies</h1>
+    <p class="text-muted">
+        Compare two movies side by side.
+    </p>
+</div>
+
+<!-- Comparison Form -->
+
+<div class="card border-0 shadow-sm p-4 mb-5">
+
+    <form method="GET" action="{% url 'compare_movies' %}">
+
+        <div class="row g-3 justify-content-center">
+
+            <div class="col-md-5">
+                <label class="form-label fw-semibold">Movie 1</label>
+
+                <input
+                    type="text"
+                    name="movie1"
+                    class="form-control"
+                    placeholder="e.g. Titanic"
+                    value="{{ movie1_name }}"
+                    required>
+            </div>
+
+            <div class="col-md-5">
+                <label class="form-label fw-semibold">Movie 2</label>
+
+                <input
+                    type="text"
+                    name="movie2"
+                    class="form-control"
+                    placeholder="e.g. Avatar"
+                    value="{{ movie2_name }}"
+                    required>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button type="submit" class="btn btn-primary px-5">
+                ⚖️ Compare Movies
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+{% if error %}
+
+<div class="alert alert-warning text-center">
+    {{ error }}
+</div>
+
+{% endif %}
+
+
+{% if movie1 and movie2 %}
+
+<div class="row g-4">
+
+    <!-- Movie 1 -->
+
+    <div class="col-md-6">
+
+        <div class="card h-100 border-0 shadow-sm">
+
+            {% if movie1.poster and movie1.poster != "N/A" %}
+
+            <img
+                src="{{ movie1.poster }}"
+                class="card-img-top"
+                style="height:500px; object-fit:cover;"
+                alt="{{ movie1.title }}">
+
+            {% else %}
+
+            <div class="bg-light d-flex align-items-center justify-content-center"
+                 style="height:500px;">
+
+                <span class="text-muted">
+                    Poster Not Available
+                </span>
+
+            </div>
+
+            {% endif %}
+
+            <div class="card-body">
+
+                <h3 class="fw-bold mb-4">
+                    {{ movie1.title }}
+                </h3>
+
+                <p>
+                    <strong>🎭 Genres:</strong><br>
+                    {{ movie1.genre }}
+                </p>
+
+                <p>
+                    <strong>📅 Release Year:</strong><br>
+                    {{ movie1.year }}
+                </p>
+
+                <p>
+                    <strong>⏱ Runtime:</strong><br>
+                    {{ movie1.runtime }}
+                </p>
+
+                <p>
+                    <strong>⭐ IMDb Rating:</strong><br>
+                    {{ movie1.imdb_rating }}
+                </p>
+
+                <p>
+                    <strong>🌍 Language:</strong><br>
+                    {{ movie1.language }}
+                </p>
+
+                <p>
+                    <strong>📝 Movie Overview:</strong><br>
+                    <span class="text-muted">
+                        {{ movie1.plot }}
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Movie 2 -->
+
+    <div class="col-md-6">
+
+        <div class="card h-100 border-0 shadow-sm">
+
+            {% if movie2.poster and movie2.poster != "N/A" %}
+
+            <img
+                src="{{ movie2.poster }}"
+                class="card-img-top"
+                style="height:500px; object-fit:cover;"
+                alt="{{ movie2.title }}">
+
+            {% else %}
+
+            <div class="bg-light d-flex align-items-center justify-content-center"
+                 style="height:500px;">
+
+                <span class="text-muted">
+                    Poster Not Available
+                </span>
+
+            </div>
+
+            {% endif %}
+
+            <div class="card-body">
+
+                <h3 class="fw-bold mb-4">
+                    {{ movie2.title }}
+                </h3>
+
+                <p>
+                    <strong>🎭 Genres:</strong><br>
+                    {{ movie2.genre }}
+                </p>
+
+                <p>
+                    <strong>📅 Release Year:</strong><br>
+                    {{ movie2.year }}
+                </p>
+
+                <p>
+                    <strong>⏱ Runtime:</strong><br>
+                    {{ movie2.runtime }}
+                </p>
+
+                <p>
+                    <strong>⭐ IMDb Rating:</strong><br>
+                    {{ movie2.imdb_rating }}
+                </p>
+
+                <p>
+                    <strong>🌍 Language:</strong><br>
+                    {{ movie2.language }}
+                </p>
+
+                <p>
+                    <strong>📝 Movie Overview:</strong><br>
+                    <span class="text-muted">
+                        {{ movie2.plot }}
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

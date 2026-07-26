@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="text-center mb-5">
+    <h1 class="fw-bold display-5">🔎 Advanced Movie Search</h1>
+    <p class="text-muted">
+        Find movies using genre, release year, IMDb rating, and language.
+    </p>
+</div>
+
+<div class="card border-0 shadow-sm p-4 mb-5">
+
+    <form method="GET" action="{% url 'advanced_search' %}" id="advancedSearchForm">
+
+        <div class="row g-3">
+
+            <div class="col-lg-3 col-md-6">
+                <label class="form-label fw-semibold">Genre</label>
+
+                <select name="genre" class="form-select">
+                    <option value="">All Genres</option>
+                    <option value="Action" {% if selected_genre == "Action" %}selected{% endif %}>Action</option>
+                    <option value="Adventure" {% if selected_genre == "Adventure" %}selected{% endif %}>Adventure</option>
+                    <option value="Animation" {% if selected_genre == "Animation" %}selected{% endif %}>Animation</option>
+                    <option value="Comedy" {% if selected_genre == "Comedy" %}selected{% endif %}>Comedy</option>
+                    <option value="Crime" {% if selected_genre == "Crime" %}selected{% endif %}>Crime</option>
+                    <option value="Drama" {% if selected_genre == "Drama" %}selected{% endif %}>Drama</option>
+                    <option value="Fantasy" {% if selected_genre == "Fantasy" %}selected{% endif %}>Fantasy</option>
+                    <option value="Horror" {% if selected_genre == "Horror" %}selected{% endif %}>Horror</option>
+                    <option value="Romance" {% if selected_genre == "Romance" %}selected{% endif %}>Romance</option>
+                    <option value="Sci-Fi" {% if selected_genre == "Sci-Fi" %}selected{% endif %}>Sci-Fi</option>
+                    <option value="Thriller" {% if selected_genre == "Thriller" %}selected{% endif %}>Thriller</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <label class="form-label fw-semibold">Release Year</label>
+
+                <input
+                    type="number"
+                    name="year"
+                    class="form-control"
+                    placeholder="e.g. 1999"
+                    min="1900"
+                    max="2100"
+                    value="{{ selected_year }}">
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <label class="form-label fw-semibold">Minimum IMDb Rating</label>
+
+                <input
+                    type="number"
+                    name="rating"
+                    class="form-control"
+                    placeholder="e.g. 7"
+                    min="0"
+                    max="10"
+                    step="0.1"
+                    value="{{ selected_rating }}">
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <label class="form-label fw-semibold">Language</label>
+
+                <input
+                    type="text"
+                    name="language"
+                    class="form-control"
+                    placeholder="e.g. English"
+                    value="{{ selected_language }}">
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button type="submit" class="btn btn-primary px-5">
+                <i class="bi bi-search"></i>
+                Search Movies
+            </button>
+
+            <a href="{% url 'advanced_search' %}"
+               class="btn btn-outline-secondary px-4 ms-2">
+                Clear
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div id="loadingIndicator"
+     class="text-center my-5"
+     style="display:none;">
+
+    <div class="spinner-border text-primary" role="status"></div>
+
+    <p class="text-muted mt-3">
+        Finding movies...
+    </p>
+
+</div>
+
+
+{% if searched %}
+
+    {% if movies %}
+
+        <h3 class="fw-bold mb-4">
+            🎬 Search Results
+        </h3>
+
+        <div class="row g-4">
+
+            {% for movie in movies %}
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="card h-100 border-0 shadow-sm">
+
+                    {% if movie.poster and movie.poster != "N/A" %}
+
+                    <img src="{{ movie.poster }}"
+                         class="card-img-top"
+                         style="height:400px; object-fit:cover;"
+                         alt="{{ movie.title }}">
+
+                    {% else %}
+
+                    <div class="bg-light d-flex align-items-center justify-content-center"
+                         style="height:400px;">
+
+                        <span class="text-muted">
+                            Poster Not Available
+                        </span>
+
+                    </div>
+
+                    {% endif %}
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+                            {{ movie.title }}
+                        </h5>
+
+                        <p class="mb-2">
+                            <strong>🎭 Genre:</strong>
+                            {{ movie.genre }}
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>📅 Year:</strong>
+                            {{ movie.year }}
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>⭐ IMDb:</strong>
+                            {{ movie.imdb_rating }}
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>🌍 Language:</strong>
+                            {{ movie.language }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-warning text-center">
+            😕 No movies found matching the selected filters. Try changing your filters.
+        </div>
+
+    {% endif %}
+
+{% endif %}
+
+
+<script>
+document.getElementById("advancedSearchForm").addEventListener("submit", function () {
+    document.getElementById("loadingIndicator").style.display = "block";
+});
+</script>
+
+{% endblock %}
